@@ -12,15 +12,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
-.registration-form {
-  border: 1px solid black;
-  padding: 20px;
-  text-align: left;
-  background-color: rgba(231, 243, 226, 1);
-}
-.submit-btn {
-  background-color: rgba(0, 197, 155, 1);
-  width: 100%;
-  color: white;
-}

@@ -12,6 +12,7 @@ import {
   Col,
 } from "antd";
 import FormQuestions from "./services/models";
+import sendEmail from "./services/email";
 
 const { TextArea } = Input;
 const { Text, Title } = Typography;
@@ -23,9 +24,14 @@ export default function App() {
   });
   const [fileList, setFileList] = useState([]);
 
-  const onFinsh = (values) => {
-    console.log(values);
-    console.log(fileList);
+  const onFinish = (values) => {
+    sendEmail({ questions: values, attachments: fileList })
+      .then((res) => {
+        alert("Registration completed");
+      })
+      .catch((error) => {
+        alert("Some error occurred");
+      });
   };
   const onChange = (e) => {
     if (e.target.name === "q1") {
@@ -43,7 +49,7 @@ export default function App() {
     }
   };
   //antd upload component is designed for backend upload
-  //used customise request to bypass this feature
+  //used this method prevent default behaviour
   const fakeRequest = ({ onSuccess }) => {
     onSuccess("ok");
   };
@@ -55,7 +61,7 @@ export default function App() {
     <div className="App">
       <Row justify="center">
         <Col span={12}>
-          <Form onFinish={onFinsh} className="registration-form">
+          <Form onFinish={onFinish} className="registration-form">
             <Form.Item>
               <Title level={5}>{FormQuestions.q1.content}</Title>
               <Form.Item
@@ -164,7 +170,7 @@ export default function App() {
                   fileList={fileList}
                   customRequest={fakeRequest}
                   onChange={handleUpload}
-                  accept=".doc,.docx,application/msword,application/pdf,.zip,.rar"
+                  accept=".doc,.docx,application/msword,application/pdf,.zip,.rar,.txt"
                 >
                   <Button type="dashed">Browse</Button>
                 </Upload>
