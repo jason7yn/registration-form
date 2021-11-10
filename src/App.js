@@ -48,14 +48,6 @@ export default function App() {
       );
     }
   };
-  //antd upload component is designed for backend upload
-  //used this method prevent default behaviour
-  const fakeRequest = ({ onSuccess }) => {
-    onSuccess("ok");
-  };
-  const handleUpload = (files) => {
-    setFileList([...files.fileList]);
-  };
 
   return (
     <div className="App">
@@ -168,8 +160,12 @@ export default function App() {
                 <Upload
                   multiple={true}
                   fileList={fileList}
-                  customRequest={fakeRequest}
-                  onChange={handleUpload}
+                  customRequest={({ onSuccess }) => {
+                    onSuccess("ok");
+                  }}
+                  onChange={(files) => {
+                    setFileList([...files.fileList]);
+                  }}
                   accept=".doc,.docx,application/msword,application/pdf,.zip,.rar,.txt"
                 >
                   <Button type="dashed">Browse</Button>
